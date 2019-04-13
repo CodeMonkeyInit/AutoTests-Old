@@ -1237,7 +1237,7 @@ let tests = {
                 },
                 test: (result, status) => {
                     try {
-                        if(result.status == true || result.status == 'true') {
+                        if(result.status == false || result.status == 'false') {
                             return true;
                         }
                     } catch (e) {
@@ -1251,7 +1251,10 @@ let tests = {
                 subname: 'Отправлять не авторизованым',
                 request: {
                     method: 'POST',
-                    link: 'posts/1231321/comments',
+                    link: 'posts/{ID}/comments',
+                    customLink: {
+                        ID: 1
+                    },
                     data: {}
                 },
                 test: (result, status) => {
@@ -1561,8 +1564,8 @@ let tests = {
                 name: 'Поиск по тегу: верный status-параметр: code\n',
                 subname: '',
                 request: {
-                    method: 'POST',
-                    link: 'tag/{TAG}',
+                    method: 'GET',
+                    link: 'posts/tag/{TAG}',
                     customLink: {
                         TAG: 'tag',
                     },
@@ -1582,8 +1585,8 @@ let tests = {
                 name: 'Поиск по тегу: верный status-параметр: text',
                 subname: '',
                 request: {
-                    method: 'POST',
-                    link: 'tag/{TAG}',
+                    method: 'GET',
+                    link: 'posts/tag/{TAG}',
                     customLink: {
                         TAG: 'tag',
                     },
@@ -1603,8 +1606,8 @@ let tests = {
                 name: 'Поиск по тегу: верный формат ответа, верный ответ',
                 subname: 'Оцениваются два критерия',
                 request: {
-                    method: 'POST',
-                    link: 'tag/{TAG}',
+                    method: 'GET',
+                    link: 'posts/tag/{TAG}',
                     customLink: {
                         TAG: 'tag',
                     },
