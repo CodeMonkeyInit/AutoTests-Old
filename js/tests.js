@@ -1,12 +1,12 @@
 let custom = {
-        post: {
+        advert: () => ({
             title: {
                 type: 'text',
-                default: 'Новый пост ' + Math.random()
+                default: 'Новое объявление ' + Math.random()
             },
-            anons: {
+            number: {
                 type: 'text',
-                default: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                default: '+79788016407',
             },
             text: {
                 type: 'textarea',
@@ -19,7 +19,7 @@ let custom = {
             image: {
                 type: 'file'
             }
-        }
+        })
     };
 let customResponse = {
     unauthorized: (result, status) => {
@@ -217,14 +217,14 @@ let tests = {
         },
     },
     cat2: {
-        name: 'Создание поста',
+        name: 'Создание обьявления',
         items: {
             create1: {
-                name: 'Создание поста: запрос выполняется на адрес',
+                name: 'Создание обьявления: запрос выполняется на адрес',
                 subname: 'Адрес существует, нет ошибки 404',
                 request: {
                     method: 'POST',
-                    link: 'posts',
+                    link: 'adverts',
                     data: {}
                 },
                 test: (result, status) => {
@@ -236,15 +236,15 @@ let tests = {
                 },
             },
             create2: {
-                name: 'Создание поста: успешное, верный status-параметр: code',
+                name: 'Создание обьявления: успешное, верный status-параметр: code',
                 subname: '',
                 custom: true,
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts',
-                    data: custom.post,
+                    link: 'adverts',
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
                     if (status.status == 201) {
@@ -255,15 +255,15 @@ let tests = {
                 },
             },
             create3: {
-                name: 'Создание поста: успешное, верный status-параметр: text',
+                name: 'Создание обьявления: успешное, верный status-параметр: text',
                 subname: '',
                 custom: true,
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts',
-                    data: custom.post,
+                    link: 'adverts',
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
                     if (status.statusText.toLowerCase() == 'successful creation') {
@@ -274,15 +274,15 @@ let tests = {
                 },
             },
             create4: {
-                name: 'Создание поста: успешное, верный body-параметр: status',
+                name: 'Создание обьявления: успешное, верный body-параметр: status',
                 subname: '',
                 custom: true,
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts',
-                    data: custom.post,
+                    link: 'adverts',
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
                     if (result.status == true) {
@@ -293,18 +293,18 @@ let tests = {
                 },
             },
             create5: {
-                name: 'Создание поста: успешное, верный body-параметр: post_id',
+                name: 'Создание обьявления: успешное, верный body-параметр: advert_id',
                 subname: '',
                 custom: true,
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts',
-                    data: custom.post,
+                    link: 'adverts',
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
-                    if (result.post_id) {
+                    if (result.advert_id) {
                         return true;
                     }
 
@@ -312,28 +312,28 @@ let tests = {
                 },
             },
             create6: {
-                name: 'Создание поста: пост добавлен',
+                name: 'Создание обьявления: объявление добавлено',
                 subname: '',
                 custom: true,
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts',
-                    data: custom.post,
+                    link: 'adverts',
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
                     return null;
                 },
             },
             create7: {
-                name: 'Создание поста: безуспешное, верный body-параметр: status',
+                name: 'Создание обьявления: безуспешное, верный body-параметр: status',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts',
+                    link: 'adverts',
                     data: {},
                 },
                 test: (result, status) => {
@@ -345,13 +345,13 @@ let tests = {
                 },
             },
             create8: {
-                name: 'Создание поста: безуспешное, верный body-параметр: message',
+                name: 'Создание обьявления: безуспешное, верный body-параметр: message',
                 subname: 'Содержит ассоциативный массив из параметров, которые содержат ошибку. Оценивается в целом формат вывода',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts',
+                    link: 'adverts',
                     data: {},
                 },
                 test: (result, status) => {
@@ -363,15 +363,15 @@ let tests = {
                 },
             },
             create9: {
-                name: 'Создание поста: валидация: title, anons, text, image. Изображение загружается на сервер',
+                name: 'Создание обьявления: валидация: title, number, text, image. Изображение загружается на сервер',
                 subname: 'Все критерии проверяются на этой форме поочерёдно',
                 bearerEnabled: true,
                 bearer: '',
                 custom: true,
                 request: {
                     method: 'POST',
-                    link: 'posts',
-                    data: custom.post,
+                    link: 'adverts',
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
                     if(typeof result.message == 'array' || typeof result.message == 'object') {
@@ -382,13 +382,13 @@ let tests = {
                 },
             },
             create10: {
-                name: 'Создание поста: ошибка авторизации: верный ответ',
+                name: 'Создание обьявления: ошибка авторизации: верный ответ',
                 subname: 'Два варианта: оставить пустым и ввести неверный',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts',
+                    link: 'adverts',
                     data: {},
                 },
                 test: customResponse.unauthorized,
@@ -396,21 +396,21 @@ let tests = {
         }
     },
     cat3: {
-        name: 'Редактирование поста',
+        name: 'Редактирование обьявления',
         items: {
             edit1: {
-                name: 'Редактирование поста: успешное, верный status-параметр: code',
+                name: 'Редактирование обьявления: успешное, верный status-параметр: code',
                 subname: 'Два варианта: оставить пустым и ввести неверный',
                 bearerEnabled: true,
                 bearer: '',
                 custom: true,
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
-                    data: custom.post,
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
                     if (status.status == 201) {
@@ -421,18 +421,18 @@ let tests = {
                 },
             },
             edit2: {
-                name: 'Редактирование поста: успешное, верный status-параметр: text',
+                name: 'Редактирование обьявления: успешное, верный status-параметр: text',
                 subname: 'Два варианта: оставить пустым и ввести неверный',
                 bearerEnabled: true,
                 bearer: '',
                 custom: true,
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
-                    data: custom.post,
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
                     if (status.statusText.toLowerCase() == 'successful creation') {
@@ -443,18 +443,18 @@ let tests = {
                 },
             },
             edit3: {
-                name: 'Редактирование поста: успешное, верный body-параметр: status',
+                name: 'Редактирование обьявления: успешное, верный body-параметр: status',
                 subname: 'Два варианта: оставить пустым и ввести неверный',
                 bearerEnabled: true,
                 bearer: '',
                 custom: true,
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
-                    data: custom.post,
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
                     if (result.status == true || result.status == 'true') {
@@ -465,27 +465,27 @@ let tests = {
                 }
             },
             edit4: {
-                name: 'Редактирование поста: успешное, верный body-параметр: post',
-                subname: 'title - название поста: 0,01;\n' +
-                ' datatime - дата и время создания поста: 0,02;\n' +
+                name: 'Редактирование обьявления: успешное, верный body-параметр: advert',
+                subname: 'title - название обьявления: 0,01;\n' +
+                ' datatime - дата и время создания обьявления: 0,02;\n' +
                 ' формат - чч:мм дд.мм.гггг (12:35 06.08.2018): 0,2;\n' +
-                ' anons - анонс поста: 0,01;\n' +
-                ' text - текст поста: 0,01;\n' +
-                ' tags - массив из тэгов поста ([“tag1”, “tag2”]): 0,3;\n' +
-                ' image - ссылка на изображение поста: 0,2',
+                ' number - номер обьявления: 0,01;\n' +
+                ' text - текст обьявления: 0,01;\n' +
+                ' tags - массив из тэгов обьявления ([“tag1”, “tag2”]): 0,3;\n' +
+                ' image - ссылка на изображение обьявления: 0,2',
                 bearerEnabled: true,
                 bearer: '',
                 custom: true,
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
-                    data: custom.post,
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
-                    if (result.post) {
+                    if (result.advert) {
                         return null;
                     }
 
@@ -493,21 +493,21 @@ let tests = {
                 }
             },
             edit5: {
-                name: 'Редактирование поста: успешное: валидация осуществляется на все поля',
+                name: 'Редактирование обьявления: успешное: валидация осуществляется на все поля',
                 subname: 'title - уникальное: 0,1;\nimage - форматы: jpg, png, размер: 0,2',
                 bearerEnabled: true,
                 bearer: '',
                 custom: true,
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
-                    data: custom.post,
+                    data: custom.advert(),
                 },
                 test: (result, status) => {
-                    if (result.post) {
+                    if (result.advert) {
                         return null;
                     }
 
@@ -515,13 +515,13 @@ let tests = {
                 }
             },
             edit6: {
-                name: 'Редактирование поста: безуспешное, верный status-параметр: code',
+                name: 'Редактирование обьявления: безуспешное, верный status-параметр: code',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
@@ -536,13 +536,13 @@ let tests = {
                 }
             },
             edit7: {
-                name: 'Редактирование поста: безуспешное, верный status-параметр: text',
+                name: 'Редактирование обьявления: безуспешное, верный status-параметр: text',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
@@ -557,13 +557,13 @@ let tests = {
                 }
             },
             edit8: {
-                name: 'Редактирование поста: безуспешное, верный body-параметр: status',
+                name: 'Редактирование обьявления: безуспешное, верный body-параметр: status',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
@@ -578,13 +578,13 @@ let tests = {
                 }
             },
             edit9: {
-                name: 'Редактирование поста: безуспешное, верный body-параметр: message',
+                name: 'Редактирование обьявления: безуспешное, верный body-параметр: message',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
@@ -599,13 +599,13 @@ let tests = {
                 }
             },
             edit10: {
-                name: 'Редактирование поста: несуществующий, верный status-параметр: code',
+                name: 'Редактирование обьявления: несуществующий, верный status-параметр: code',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
@@ -620,20 +620,20 @@ let tests = {
                 }
             },
             edit11: {
-                name: 'Редактирование поста: несуществующий, верный status-параметр: text',
+                name: 'Редактирование обьявления: несуществующий, верный status-параметр: text',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
                     data: {},
                 },
                 test: (result, status) => {
-                    if (status.statusText.toLowerCase() == 'post not found') {
+                    if (status.statusText.toLowerCase() == 'advert not found') {
                         return true;
                     }
 
@@ -641,13 +641,13 @@ let tests = {
                 }
             },
             edit12: {
-                name: 'Редактирование поста: несуществующий, верный body-параметр: message',
+                name: 'Редактирование обьявления: несуществующий, верный body-параметр: message',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
@@ -656,7 +656,7 @@ let tests = {
                 test: (result, status) => {
                     try {
                         if (typeof result.message != 'undefined') {
-                            if (result.message.toLowerCase() == 'post not found') {
+                            if (result.message.toLowerCase() == 'advert not found') {
                                 return true;
                             }
                         }
@@ -667,13 +667,13 @@ let tests = {
                 }
             },
             edit13: {
-                name: 'Редактирование поста: ошибка авторизации: верный ответ',
+                name: 'Редактирование обьявления: ошибка авторизации: верный ответ',
                 subname: 'Два варианта: оставить пустым и ввести неверный',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
@@ -684,16 +684,16 @@ let tests = {
         }
     },
     cat4: {
-        name: 'Удаление поста',
+        name: 'Удаление обьявления',
         items: {
             delete1: {
-                name: 'Удаление поста: успешное, верный status-параметр: code',
+                name: 'Удаление обьявления: успешное, верный status-параметр: code',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
@@ -708,13 +708,13 @@ let tests = {
                 },
             },
             delete2: {
-                name: 'Удаление поста: успешное, верный status-параметр: text',
+                name: 'Удаление обьявления: успешное, верный status-параметр: text',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
@@ -732,13 +732,13 @@ let tests = {
                 },
             },
             delete3: {
-                name: 'Удаление поста: успешное, верный body-параметр: status',
+                name: 'Удаление обьявления: успешное, верный body-параметр: status',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
@@ -756,13 +756,13 @@ let tests = {
                 },
             },
             delete4: {
-                name: 'Удаление поста: удален',
+                name: 'Удаление обьявления: удален',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     },
@@ -773,13 +773,13 @@ let tests = {
                 },
             },
             delete5: {
-                name: 'Удаление поста: несуществующий, верный status-параметр: code',
+                name: 'Удаление обьявления: несуществующий, верный status-параметр: code',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
@@ -794,20 +794,20 @@ let tests = {
                 }
             },
             delete6: {
-                name: 'Удаление поста: несуществующий, верный status-параметр: text',
+                name: 'Удаление обьявления: несуществующий, верный status-параметр: text',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
                     data: {},
                 },
                 test: (result, status) => {
-                    if (status.statusText.toLowerCase() == 'post not found') {
+                    if (status.statusText.toLowerCase() == 'advert not found') {
                         return true;
                     }
 
@@ -815,13 +815,13 @@ let tests = {
                 }
             },
             delete7: {
-                name: 'Удаление поста: несуществующий, верный body-параметр: message',
+                name: 'Удаление обьявления: несуществующий, верный body-параметр: message',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
@@ -830,7 +830,7 @@ let tests = {
                 test: (result, status) => {
                     try {
                         if (typeof result.message != 'undefined') {
-                            if (result.message.toLowerCase() == 'post not found') {
+                            if (result.message.toLowerCase() == 'advert not found') {
                                 return true;
                             }
                         }
@@ -841,13 +841,13 @@ let tests = {
                 }
             },
             delete8: {
-                name: 'Удаление поста: ошибка авторизации: верный ответ',
+                name: 'Удаление обьявления: ошибка авторизации: верный ответ',
                 subname: 'Два варианта: оставить пустым и ввести неверный',
                 bearerEnabled: true,
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
@@ -865,7 +865,7 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'GET',
-                    link: 'posts',
+                    link: 'adverts',
                 },
                 test: (result, status) => {
                     try {
@@ -883,11 +883,11 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'GET',
-                    link: 'posts',
+                    link: 'adverts',
                 },
                 test: (result, status) => {
                     try {
-                        if (status.statusText.toLowerCase() == 'list posts') {
+                        if (status.statusText.toLowerCase() == 'list adverts') {
                             return true;
                         }
                     } catch (e) {
@@ -901,7 +901,7 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'GET',
-                    link: 'posts',
+                    link: 'adverts',
                 },
                 test: (result, status) => {
                     return null;
@@ -912,7 +912,7 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'GET',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     }
@@ -933,14 +933,14 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'GET',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     }
                 },
                 test: (result, status) => {
                     try {
-                        if (status.statusText.toLowerCase() == 'view post') {
+                        if (status.statusText.toLowerCase() == 'view advert') {
                             return true;
                         }
                     } catch (e) {
@@ -954,7 +954,7 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'GET',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 1
                     }
@@ -970,7 +970,7 @@ let tests = {
                 bearer: '',
                 request: {
                     method: 'GET',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
@@ -990,13 +990,13 @@ let tests = {
                 bearer: '',
                 request: {
                     method: 'GET',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
                 },
                 test: (result, status) => {
-                    if (status.statusText.toLowerCase() == 'post not found') {
+                    if (status.statusText.toLowerCase() == 'advert not found') {
                         return true;
                     }
 
@@ -1010,7 +1010,7 @@ let tests = {
                 bearer: '',
                 request: {
                     method: 'GET',
-                    link: 'posts/{ID}',
+                    link: 'adverts/{ID}',
                     customLink: {
                         ID: 121321321
                     },
@@ -1018,7 +1018,7 @@ let tests = {
                 test: (result, status) => {
                     try {
                         if (typeof result.message != 'undefined') {
-                            if (result.message.toLowerCase() == 'post not found') {
+                            if (result.message.toLowerCase() == 'advert not found') {
                                 return true;
                             }
                         }
@@ -1038,13 +1038,13 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
                     data: {
                         author: 'Author 1',
-                        comment: 'Comment for post 1'
+                        comment: 'Comment for advert 1'
                     }
                 },
                 test: (result, status) => {
@@ -1063,13 +1063,13 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
                     data: {
                         author: 'Author 2',
-                        comment: 'Comment for post 2'
+                        comment: 'Comment for advert 2'
                     }
                 },
                 test: (result, status) => {
@@ -1088,13 +1088,13 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
                     data: {
                         author: 'Author 3',
-                        comment: 'Comment for post 3'
+                        comment: 'Comment for advert 3'
                     }
                 },
                 test: (result, status) => {
@@ -1113,13 +1113,13 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
                     data: {
                         author: 'Author 4',
-                        comment: 'Comment for post 4'
+                        comment: 'Comment for advert 4'
                     }
                 },
                 test: (result, status) => {
@@ -1135,7 +1135,7 @@ let tests = {
                 custom: true,
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
@@ -1162,7 +1162,7 @@ let tests = {
                 custom: true,
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
@@ -1185,7 +1185,7 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
@@ -1207,7 +1207,7 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
@@ -1229,7 +1229,7 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
@@ -1251,7 +1251,7 @@ let tests = {
                 subname: 'Отправлять не авторизованым',
                 request: {
                     method: 'POST',
-                    link: 'posts/{ID}/comments',
+                    link: 'adverts/{ID}/comments',
                     customLink: {
                         ID: 1
                     },
@@ -1269,11 +1269,11 @@ let tests = {
                 }
             },
             edit10: {
-                name: 'Добавление комментария: несуществующий пост, верный status-параметр: code',
+                name: 'Добавление комментария: несуществующее обьявление, верный status-параметр: code',
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/12312321/comments',
+                    link: 'adverts/12312321/comments',
                     data: {},
                 },
                 test: (result, status) => {
@@ -1285,15 +1285,15 @@ let tests = {
                 }
             },
             edit11: {
-                name: 'Добавление комментария: несуществующий пост, верный status-параметр: text',
+                name: 'Добавление комментария: несуществующее обьявление, верный status-параметр: text',
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/12312321/comments',
+                    link: 'adverts/12312321/comments',
                     data: {},
                 },
                 test: (result, status) => {
-                    if (status.statusText.toLowerCase() == 'post not found') {
+                    if (status.statusText.toLowerCase() == 'advert not found') {
                         return true;
                     }
 
@@ -1301,17 +1301,17 @@ let tests = {
                 }
             },
             edit12: {
-                name: 'Добавление комментария: несуществующий пост, верный body-параметр: message',
+                name: 'Добавление комментария: несуществующее обьявление, верный body-параметр: message',
                 subname: '',
                 request: {
                     method: 'POST',
-                    link: 'posts/12321321/comments',
+                    link: 'adverts/12321321/comments',
                     data: {},
                 },
                 test: (result, status) => {
                     try {
                         if (typeof result.message != 'undefined') {
-                            if (result.message.toLowerCase() == 'post not found') {
+                            if (result.message.toLowerCase() == 'advert not found') {
                                 return true;
                             }
                         }
@@ -1333,7 +1333,7 @@ let tests = {
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/{COMMENT_ID}',
+                    link: 'adverts/{ID}/comments/{COMMENT_ID}',
                     customLink: {
                         ID: 1,
                         COMMENT_ID: 1,
@@ -1357,7 +1357,7 @@ let tests = {
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/{COMMENT_ID}',
+                    link: 'adverts/{ID}/comments/{COMMENT_ID}',
                     customLink: {
                         ID: 1,
                         COMMENT_ID: 1,
@@ -1381,7 +1381,7 @@ let tests = {
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/{COMMENT_ID}',
+                    link: 'adverts/{ID}/comments/{COMMENT_ID}',
                     customLink: {
                         ID: 1,
                         COMMENT_ID: 1,
@@ -1405,7 +1405,7 @@ let tests = {
                 bearer: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/{COMMENT_ID}',
+                    link: 'adverts/{ID}/comments/{COMMENT_ID}',
                     customLink: {
                         ID: 1,
                         COMMENT_ID: 1,
@@ -1416,11 +1416,11 @@ let tests = {
                 }
             },
             del5: {
-                name: 'Удаление комментария: несуществующий пост, верный status-параметр: code',
+                name: 'Удаление комментария: несуществующее обьявление, верный status-параметр: code',
                 subname: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/{COMMENT_ID}',
+                    link: 'adverts/{ID}/comments/{COMMENT_ID}',
                     customLink: {
                         ID: 1,
                         COMMENT_ID: 1,
@@ -1435,18 +1435,18 @@ let tests = {
                 }
             },
             del6: {
-                name: 'Удаление комментария: несуществующий пост, верный status-параметр: text',
+                name: 'Удаление комментария: несуществующее обьявление, верный status-параметр: text',
                 subname: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/{COMMENT_ID}',
+                    link: 'adverts/{ID}/comments/{COMMENT_ID}',
                     customLink: {
                         ID: 1,
                         COMMENT_ID: 1,
                     },
                 },
                 test: (result, status) => {
-                    if (status.statusText.toLowerCase() == 'post not found') {
+                    if (status.statusText.toLowerCase() == 'advert not found') {
                         return true;
                     }
 
@@ -1454,11 +1454,11 @@ let tests = {
                 }
             },
             del7: {
-                name: 'Удаление комментария: несуществующий пост, верный body-параметр: message',
+                name: 'Удаление комментария: несуществующее обьявление, верный body-параметр: message',
                 subname: '',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/{COMMENT_ID}',
+                    link: 'adverts/{ID}/comments/{COMMENT_ID}',
                     customLink: {
                         ID: 1,
                         COMMENT_ID: 1,
@@ -1467,7 +1467,7 @@ let tests = {
                 test: (result, status) => {
                     try {
                         if (typeof result.message != 'undefined') {
-                            if (result.message.toLowerCase() == 'post not found') {
+                            if (result.message.toLowerCase() == 'advert not found') {
                                 return true;
                             }
                         }
@@ -1484,7 +1484,7 @@ let tests = {
                 bearerEnabled: true,
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/2133333',
+                    link: 'adverts/{ID}/comments/2133333',
                     customLink: {
                         ID: 1,
                     },
@@ -1504,7 +1504,7 @@ let tests = {
                 bearerEnabled: true,
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/123123312',
+                    link: 'adverts/{ID}/comments/123123312',
                     customLink: {
                         ID: 1,
                     },
@@ -1524,7 +1524,7 @@ let tests = {
                 bearerEnabled: true,
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/21312332',
+                    link: 'adverts/{ID}/comments/21312332',
                     customLink: {
                         ID: 1,
                     },
@@ -1547,7 +1547,7 @@ let tests = {
                 subname: 'Два варианта: оставить пустым и ввести неверный',
                 request: {
                     method: 'DELETE',
-                    link: 'posts/{ID}/comments/{COMMENT_ID}',
+                    link: 'adverts/{ID}/comments/{COMMENT_ID}',
                     customLink: {
                         ID: 1,
                         COMMENT_ID: 1,
@@ -1565,7 +1565,7 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'GET',
-                    link: 'posts/tag/{TAG}',
+                    link: 'adverts/tag/{TAG}',
                     customLink: {
                         TAG: 'tag',
                     },
@@ -1586,14 +1586,14 @@ let tests = {
                 subname: '',
                 request: {
                     method: 'GET',
-                    link: 'posts/tag/{TAG}',
+                    link: 'adverts/tag/{TAG}',
                     customLink: {
                         TAG: 'tag',
                     },
                 },
                 test: (result, status) => {
                     try {
-                        if (status.statusText.toLowerCase() == 'found posts') {
+                        if (status.statusText.toLowerCase() == 'found adverts') {
                             return true;
                         }
                     } catch (e) {
@@ -1607,7 +1607,7 @@ let tests = {
                 subname: 'Оцениваются два критерия',
                 request: {
                     method: 'GET',
-                    link: 'posts/tag/{TAG}',
+                    link: 'adverts/tag/{TAG}',
                     customLink: {
                         TAG: 'tag',
                     },
