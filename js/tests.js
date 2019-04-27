@@ -599,7 +599,7 @@ let tests = {
                 }
             },
             edit10: {
-                name: 'Редактирование обьявления: несуществующий, верный status-параметр: code',
+                name: 'Редактирование обьявления: несуществующее, верный status-параметр: code',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
@@ -620,7 +620,7 @@ let tests = {
                 }
             },
             edit11: {
-                name: 'Редактирование обьявления: несуществующий, верный status-параметр: text',
+                name: 'Редактирование обьявления: несуществующее, верный status-параметр: text',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
@@ -641,7 +641,7 @@ let tests = {
                 }
             },
             edit12: {
-                name: 'Редактирование обьявления: несуществующий, верный body-параметр: message',
+                name: 'Редактирование обьявления: несуществующее, верный body-параметр: message',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
@@ -773,7 +773,7 @@ let tests = {
                 },
             },
             delete5: {
-                name: 'Удаление обьявления: несуществующий, верный status-параметр: code',
+                name: 'Удаление обьявления: несуществующее, верный status-параметр: code',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
@@ -794,7 +794,7 @@ let tests = {
                 }
             },
             delete6: {
-                name: 'Удаление обьявления: несуществующий, верный status-параметр: text',
+                name: 'Удаление обьявления: несуществующее, верный status-параметр: text',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
@@ -815,7 +815,7 @@ let tests = {
                 }
             },
             delete7: {
-                name: 'Удаление обьявления: несуществующий, верный body-параметр: message',
+                name: 'Удаление обьявления: несуществующее, верный body-параметр: message',
                 subname: '',
                 bearerEnabled: true,
                 bearer: '',
